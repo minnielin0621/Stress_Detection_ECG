@@ -29,8 +29,7 @@ def main(args):
         input_path = os.path.join(RAW_DATA_PATH, str(args.sample_frequency), "part_5")
     # As of now we allow all processing only for sample frequency 1000
     elif args.data_chunk == -1:
-        input_path = os.path.join(RAW_DATA_PATH, str(args.sample_frequency))
-
+        input_path = RAW_DATA_PATH
     input_file = str(args.participant_number) + "_LAB_Conditions_ECG.edf" if args.participant_number != -1 else "*.edf"
     print(f"we are processing {input_file}" if args.participant_number != -1 else f"we are processing all files")
 
@@ -77,7 +76,7 @@ if __name__ == "__main__":
                         default="neurokit")
     parser.add_argument("--number_processors", type=int, default=1, help="If set to -1, it uses all available")
     parser.add_argument("--participant_number", type=int, help="which specific number to run. Set -1 for all",
-                        default=30182)
+                        default=-1)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--data_chunk", type=int, default=1,
                         help="Which data chunk to process. 1 for part 1, 2 for part 2 etc.")
