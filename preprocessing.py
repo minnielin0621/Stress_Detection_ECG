@@ -5,6 +5,8 @@ from sia import Preprocessing
 from sia.io import Metadata, read_edf, write_csv
 from sia.preprocessors import neurokit
 import argparse
+#python preprocessing.py --participant_number 30100讓在terminal的"--participant_number 30100"可以被讀進去"
+
 
 from sia.encoders import GroupEncoder
 
@@ -15,7 +17,7 @@ import time
 
 def main(args):
 
-    start_time = time.time()
+    start_time = time.time()#紀錄跑一個程式的時間
 
     if args.data_chunk == 1:
         input_path = os.path.join(RAW_DATA_PATH, str(args.sample_frequency), "part_1")
@@ -28,7 +30,7 @@ def main(args):
     elif args.data_chunk == 5:
         input_path = os.path.join(RAW_DATA_PATH, str(args.sample_frequency), "part_5")
     # As of now we allow all processing only for sample frequency 1000
-    elif args.data_chunk == -1:
+    elif args.data_chunk == -1:#我只用到這個因為我有把資料做整理
         input_path = RAW_DATA_PATH
     input_file = str(args.participant_number) + "_LAB_Conditions_ECG.edf" if args.participant_number != -1 else "*.edf"
     print(f"we are processing {input_file}" if args.participant_number != -1 else f"we are processing all files")
@@ -64,7 +66,9 @@ def main(args):
 
 
 if __name__ == "__main__":
+    #argparse是python內建的模組，主要用來處理terminal傳入的參數、並且才可以定義參數
     parser = argparse.ArgumentParser(description="Preprocessing pipeline for ECG data")
+    #定義接下來要從terminal要讀取的東西並給予default接下來從terminal讀取得東西都會變成parser.sample_frequency、parser_method等等
     parser.add_argument("--sample_frequency", type=int,
                         help="Which sample frequency to use. Original is 1,000 Hz."
                              "Note: We can have other sample frequencies, "
@@ -80,7 +84,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--data_chunk", type=int, default=1,
                         help="Which data chunk to process. 1 for part 1, 2 for part 2 etc.")
-    args = parser.parse_args()
+    args = parser.parse_args()#讀取termainal傳入的參數
 
     if args.number_processors == -1:
         # Get all available processors
