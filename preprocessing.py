@@ -66,7 +66,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    #argparse是python內建的模組，主要用來處理terminal傳入的參數、並且才可以定義參數
+    #argparse是python內建的模組，主要用來處理terminal傳入的參數
     parser = argparse.ArgumentParser(description="Preprocessing pipeline for ECG data")
     #定義接下來要從terminal要讀取的東西並給予default接下來從terminal讀取得東西都會變成parser.sample_frequency、parser_method等等
     parser.add_argument("--sample_frequency", type=int,

@@ -86,20 +86,17 @@ def nonlinear_domain(features: tuple[Feature], sampling_rate: int = 1000):
                 })
 
             elif feature == Feature.POINCARE:
-                hrv_nonlinear = {}
-                # If given peaks, compute R-R intervals (also referred to as NN) in milliseconds
-                rri, rri_time, rri_missing = _hrv_format_input(rpeaks, sampling_rate=sampling_rate)
-                hrv_nonlinear = _hrv_nonlinear_fragmentation(
-                    rri, rri_time=rri_time, rri_missing=rri_missing, out=hrv_nonlinear
-                )
-                # hrv_nonlinear = nk.hrv_nonlinear(rpeaks, sampling_rate=sampling_rate)
-                # # hrv_nonlinear = hrv_nonlinear.fillna(0)
-                # hrv_nonlinear = hrv_nonlinear.iloc[0].to_dict()
+                # FIX: The original implementation called _hrv_nonlinear_fragmentation,
+                # which does not return SD1, SD2, or SD1SD2. NeuroKit2 returns these
+                # Poincaré indices with the HRV_ prefix.
+                hrv_nonlinear = nk.hrv_nonlinear(
+                    rpeaks, sampling_rate=sampling_rate
+                ).iloc[0].to_dict()
 
                 result.update({
-                    f'sd1': hrv_nonlinear.get("SD1", np.nan),
-                    f'sd2': hrv_nonlinear.get("SD2", np.nan),
-                    f'sd1_sd2': hrv_nonlinear.get("SD1SD2", np.nan),
+                    'sd1': hrv_nonlinear.get("HRV_SD1", np.nan),
+                    'sd2': hrv_nonlinear.get("HRV_SD2", np.nan),
+                    'sd1_sd2': hrv_nonlinear.get("HRV_SD1SD2", np.nan),
                 })
 
             elif feature == Feature.FRAGMENTATION:
