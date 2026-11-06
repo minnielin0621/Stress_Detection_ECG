@@ -71,20 +71,21 @@ def frequency_domain(
         A function that takes in rpeaks and returns a dictionary of frequency domain features.
     """
 
-    def inner(rpeaks: list[int]):
-        warnings.filterwarnings("ignore")
-        frequency_features = hrv_frequency(rpeaks, sampling_rate, hf=hf, vhf=vhf, uhf=uhf)
-        # The Total power in the UHF is the only kinda reliable measure we have for 10s
-        result = {}
-        result.update({
-            f'total_band_power_uhf_band': frequency_features.get("total_band_power_uhf_band", np.nan),  # 0
-        })
-        warnings.filterwarnings("default")
-        return result
+    def inner(rpeaks):
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+
+            frequency_features = hrv_frequency(
+                rpeaks,
+                sampling_rate=sampling_rate,
+                hf=hf,
+                vhf=vhf,
+                uhf=uhf,
+            )
+
+        return dict(frequency_features)
 
     return inner
-
-
 ##
 # Neurokit Modification
 ##
