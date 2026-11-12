@@ -32,7 +32,7 @@ def main(args):
     # As of now we allow all processing only for sample frequency 1000
     elif args.data_chunk == -1:#我只用到這個因為我有把資料做整理
         input_path = RAW_DATA_PATH
-    input_file = str(args.participant_number) + "_LAB_Conditions_ECG.edf" if args.participant_number != -1 else "*.edf"
+    input_file = str(args.participant_number) + "_LAB_Conditions_ECG.edf" if args.participant_number != -1 else "*.edf"#*edf代表所有edf檔案
     print(f"we are processing {input_file}" if args.participant_number != -1 else f"we are processing all files")
 
     output_path = os.path.join(CLEANED_DATA_PATH, str(args.sample_frequency))

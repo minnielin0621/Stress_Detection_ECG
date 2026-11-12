@@ -1,0 +1,1 @@
+The original preprocessing.py passes multiple EDF files into a single preprocessing pipeline, whereas preprocessing_no_quality_filter.py processes participants individually, creating a separate pipeline for each participant.
